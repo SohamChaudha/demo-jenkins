@@ -1,23 +1,19 @@
 pipeline {
-    agent any
+    agent any 
     stages {
-        stage ("Build") {
+        stage ("Test") {
             steps {
-                echo "Building..."
+                sh "echo Running Tests...."
             }
         }
-        stage ("Tests") {
-            parallel {
-                stage ("Unit") {
-                    steps {
-                        sh "echo Unit Tests"
-                    }
-                }
-                stage ("Integration") {
-                    steps {
-                        sh "echo Integration Tests"
-                    }
-                }
+        stage ("Approve") {
+            steps {
+                input message: "Test passed. Deploy to production ?"
+            }
+        }
+        stage ("Deploy") {
+            steps {
+                sh "echo Deploying to production"
             }
         }
     }
