@@ -1,31 +1,15 @@
 pipeline {
     agent any
-    environment {
-        APP_ENV = 'test'
+    parameteres {
+        string(name: "VERSION" , defaultValue: "1.0" , description: "Version to deploy")
+        choice(name: "ENVIRONMENT" , choices: ["staging" , "production"] , description: "Target")
+        booleanParam(name: "SKIP_TEST" , defaultValue: false , description: "Skip Test ?")
     }
     stages {
-        stage('Checkout') {
+        stage ("Build") {
             steps {
-                checkout scm
+                echo "Building...."
             }
-        }
-        stage('Build') {
-            steps {
-                sh 'echo Building'
-            }
-        }
-        stage('Test') {
-            steps {
-                sh 'echo Running tests'
-            }
-        }
-    }
-    post {
-        success {
-            echo 'All stages passed'
-        }
-        failure {
-            echo 'Something failed'
         }
     }
 }
